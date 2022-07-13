@@ -1,0 +1,22 @@
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "${message}",
+            "wrap": true,
+            "separator": true
+        },
+        {
+            "type": "TextBlock",
+            "text": "${warning}",
+            "wrap": true,
+            "size": "Small",
+            "color": "Warning",
+            "horizontalAlignment": "Left",
+            "spacing": "Medium"
+        }
+    ]
+}

@@ -1,0 +1,34 @@
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "General Settings",
+            "wrap": true,
+            "size": "Large",
+            "weight": "Bolder"
+        },
+        {
+            "type": "Input.Toggle",
+            "title": "Group Mention Response",
+            "value": "${enableGroupMentionResponse}",
+            "id": "groupMentionResponse"
+        },
+        {
+            "type": "ActionSet",
+            "actions": [
+                {
+                    "type": "Action.Submit",
+                    "title": "Submit",
+                    "data": {
+                        "botId": "${botId}",
+                        "rcUserId": "${rcUserId}",
+                        "actionType": "submitGeneralSettings"
+                    }
+                }
+            ]
+        }
+    ]
+}

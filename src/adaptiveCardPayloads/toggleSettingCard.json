@@ -1,0 +1,43 @@
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "${settingType} Response Setting",
+            "wrap": true,
+            "size": "Large",
+            "weight": "Bolder"
+        },
+        {
+            "type": "Input.Toggle",
+            "title": "ON/OFF",
+            "label": "State",
+            "value": "${on}",
+            "id": "isOn"
+        },
+        {
+            "type": "Input.Text",
+            "label": "Message",
+            "value": "${replyText}",
+            "isRequired": true,
+            "id": "reply",
+            "errorMessage": "Message required"
+        },
+        {
+            "type": "ActionSet",
+            "actions": [
+                {
+                    "type": "Action.Submit",
+                    "title": "Submit",
+                    "data": {
+                        "actionType": "submit${settingType}Setting",
+                        "botId": "${botId}",
+                        "rcUserId": "${rcUserId}"
+                    }
+                }
+            ]
+        }
+    ]
+}
