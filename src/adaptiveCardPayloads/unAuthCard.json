@@ -5,37 +5,36 @@
     "body": [
         {
             "type": "TextBlock",
-            "text": "${settingType} Response Setting",
+            "text": "Logout",
             "wrap": true,
             "size": "Large",
             "weight": "Bolder"
         },
         {
-            "type": "Input.Toggle",
-            "title": "ON/OFF",
-            "label": "State",
-            "value": "${on}",
-            "id": "isOn"
+            "type": "TextBlock",
+            "text": "Please click below button to logout",
+            "wrap": true
         },
         {
-            "type": "Input.Text",
-            "label": "Message",
-            "value": "${replyText}",
-            "isRequired": true,
-            "id": "reply",
-            "errorMessage": "Message required"
+            "type": "TextBlock",
+            "text": "${additionalInfoText}",
+            "wrap": true,
+            "size": "Small",
+            "color": "Warning",
+            "$when": "${showAdditionalInfo}"
         },
         {
             "type": "ActionSet",
             "actions": [
                 {
                     "type": "Action.Submit",
-                    "title": "Submit",
+                    "title": "Logout",
                     "data": {
-                        "actionType": "submit${settingType}Setting",
                         "botId": "${botId}",
-                        "rcUserId": "${rcUserId}"
-                    }
+                        "rcUserId": "${rcUserId}",
+                        "actionType": "logout"
+                    },
+                    "style": "destructive"
                 }
             ]
         },
