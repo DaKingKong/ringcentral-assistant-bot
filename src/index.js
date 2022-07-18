@@ -3,6 +3,7 @@ const { extendApp } = require('ringcentral-chatbot-core');
 const { botHandler } = require('./handlers/botHandler');
 const { RcUserModel } = require('./models/rcUserModel');
 const { ReplySettingModel } = require('./models/replySettingModel');
+const { ReplyRecordModel } = require('./models/replyRecordModel');
 
 const interactiveMessageHandler = require('./handlers/interactiveMessageHandler');
 const authorizationHandler = require('./handlers/authorizationHandler');
@@ -17,7 +18,8 @@ exports.appExtend = (app) => {
         botRoute: '/bot', // optional
         models: { // optional
             RcUserModel,
-            ReplySettingModel
+            ReplySettingModel,
+            ReplyRecordModel
         }
     }
 

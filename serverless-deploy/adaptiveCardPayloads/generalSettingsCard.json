@@ -12,9 +12,16 @@
         },
         {
             "type": "Input.Toggle",
-            "title": "Group Mention Response",
             "value": "${enableGroupMentionResponse}",
-            "id": "groupMentionResponse"
+            "id": "groupMentionResponse",
+            "title": "Group Mention Response"
+        },
+        {
+            "type": "TextBlock",
+            "wrap": true,
+            "color": "Warning",
+            "size": "Small",
+            "text": "With Group Mention ON, auto-response will be enabled for not only Direct Message but also Group Mention (response will still go to mentioner's Direct Message)"
         },
         {
             "type": "ActionSet",

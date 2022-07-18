@@ -111,8 +111,8 @@ function toggleSettingCard(botId, rcUserId, settingType, on, replyText) {
 // date format: YYYY-MM-DD, 10 digits
 function dateRangeSettingCard(botId, rcUserId, settingType, startDateTime, endDateTime, timezoneOffset, replyText) {
     const template = new Template(dateRangeSettingCardTemplateJson);
-    const start = startDateTime ? moment(startDateTime).add(timezoneOffset, 'hours') : '';
-    const end = endDateTime ? moment(endDateTime).add(timezoneOffset, 'hours') : '';
+    const start = startDateTime ? moment(startDateTime) : '';
+    const end = endDateTime ? moment(endDateTime) : '';
     const cardData = {
         botId,
         rcUserId,
