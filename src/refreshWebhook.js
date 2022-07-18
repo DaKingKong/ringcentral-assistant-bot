@@ -8,7 +8,7 @@ async function refreshWebhook() {
     for (const user of rcUsers) {
         try {
             console.log(`refreshing for ${user.Id}`);
-            checkAndRefreshAccessToken(user);
+            checkAndRefreshAccessToken(user, true);
             await rcAPI.renewWebhook(user.webhookId, user.accessToken);
         }
         catch (e) {

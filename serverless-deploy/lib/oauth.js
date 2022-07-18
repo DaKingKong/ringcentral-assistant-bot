@@ -17,13 +17,13 @@ function getOAuthApp() {
     return oauthApp;
 }
 
-async function checkAndRefreshAccessToken(rcUser) {
+async function checkAndRefreshAccessToken(rcUser, force = false) {
     const dateNow = new Date();
-    if (rcUser && rcUser.refreshToken && (moment(rcUser.tokenExpiredAt).isBefore(moment(dateNow)) || !rcUser.accessToken)) {
+    if (rcUser && rcUser.refreshToken && (force || moment(rcUser.tokenExpiredAt).isBefore(moment(dateNow)) || !rcUser.accessToken)) {
         console.log(`refreshing token...revoking ${rcUser.accessToken}`);
         const token = oauthApp.createToken(rcUser.accessToken, rcUser.refreshToken);
         const { accessToken, refreshToken, expires } = await token.refresh();
-        console.log(`refreshing token...updating new token: ${rcUser.accessToken}`);
+        console.log(`refreshing token...updating new token: ${rcUser.accessToken},..expires ${expires}`);
         rcUser.accessToken = accessToken;
         rcUser.refreshToken = refreshToken;
         rcUser.tokenExpiredAt = expires;
