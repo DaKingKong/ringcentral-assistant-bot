@@ -48,7 +48,7 @@ async function notification(req, res) {
             if (data.presenceStatus == 'Available') {
                 const watchId = `${rcUser.id}-${data.extensionId}`;
                 const watch = await WatchUserModel.findByPk(watchId);
-                const watchPresenceCard = cardBuilder.responseCard(`${watch.watcheeName} has just become \`Available\`. Watch stops now.`, '');
+                const watchPresenceCard = cardBuilder.responseCard(`${watch.watcheeName} has just become **Available**. This watch will be automatically cleared.`, '');
                 const bot = await Bot.findByPk(rcUser.botId);
                 await bot.sendAdaptiveCard(rcUser.rcDMGroupId, watchPresenceCard);
                 await rcAPI.deleteWebHook(watch.webhookId, rcUser.accessToken);
