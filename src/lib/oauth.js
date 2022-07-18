@@ -1,5 +1,6 @@
 const ClientOAuth2 = require('client-oauth2');
 const axios = require('axios');
+const moment = require('moment');
 
 // oauthApp strategy is default to 'code' which use credentials to get accessCode, then exchange for accessToken and refreshToken.
 // To change to other strategies, please refer to: https://github.com/mulesoft-labs/js-client-oauth2
@@ -18,19 +19,19 @@ function getOAuthApp() {
 
 async function checkAndRefreshAccessToken(rcUser) {
     const dateNow = new Date();
-    if (rcUser && rcUser.refreshToken && (rcUser.tokenExpiredAt < dateNow || !rcUser.accessToken)) {
+    if (rcUser && rcUser.refreshToken && (moment(rcUser.tokenExpiredAt).isBefore(moment(dateNow)) || !rcUser.accessToken)) {
         console.log(`refreshing token...revoking ${rcUser.accessToken}`);
         const token = oauthApp.createToken(rcUser.accessToken, rcUser.refreshToken);
         const { accessToken, refreshToken, expires } = await token.refresh();
         console.log(`refreshing token...updating new token: ${rcUser.accessToken}`);
-        rcUser.accessToken= accessToken;
-        rcUser.refreshToken= refreshToken;
-        rcUser.tokenExpiredAt= expires;
+        rcUser.accessToken = accessToken;
+        rcUser.refreshToken = refreshToken;
+        rcUser.tokenExpiredAt = expires;
         await rcUser.save();
     }
 }
 
-async function revokeToken(rcUser, basicAuth){
+async function revokeToken(rcUser, basicAuth) {
     await checkAndRefreshAccessToken(rcUser);
     await axios.post(
         `${process.env.REVOKE_TOKEN_URI}?token=${rcUser.refreshToken}`,

@@ -69,11 +69,34 @@ const createCardInChat = async (groupId, accessToken, card) => {
     return response.data;
 }
 
-const createWebHook = async (rcUserId, accessToken) => {
+const createPostWebHook = async (rcUserId, accessToken) => {
     const postBody = {
         eventFilters: [
             '/restapi/v1.0/glip/posts',
             '/restapi/v1.0/account/~/extension/~/message-store/instant?type=SMS'
+        ],
+        expiresIn: 473040000,
+        deliveryMode: {
+            transportType: 'WebHook',
+            address: process.env.RINGCENTRAL_CHATBOT_SERVER + `/notification?userId=${rcUserId}`,
+        }
+    }
+    const response = await axios.post(`${process.env.RINGCENTRAL_SERVER}/restapi/v1.0/subscription?rcUserId=${rcUserId}`,
+        postBody,
+        {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
+
+    return response.data;
+}
+
+const createUserPresenceWebhook = async (rcUserId, accessToken, targetUserId) => {
+    const postBody = {
+        eventFilters: [
+            `/restapi/v1.0/account/~/extension/${targetUserId}/presence`
         ],
         expiresIn: 473040000,
         deliveryMode: {
@@ -138,12 +161,51 @@ const sendSMS = async (text, fromNumber, toNumber, accessToken) => {
     return response.data;
 }
 
+const renewWebhook = async (webhookId, accessToken) => {
+    const postBody = {
+    };
+    const response = await axios.post(`${process.env.RINGCENTRAL_SERVER}/restapi/v1.0/subscription/${webhookId}/renew`,
+        postBody,
+        {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
+
+    return response.data;
+}
+
+const searchUsersByName = async (name, accessToken) => {
+    const postBody = {
+        searchString: name, 
+        searchFields: [
+            "firstName",
+            "lastName"
+        ],
+        extensionType: "User"
+    };
+    const response = await axios.post(`${process.env.RINGCENTRAL_SERVER}/restapi/v1.0/account/~/directory/entries/search`,
+        postBody,
+        {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
+
+    return response.data;
+}
+
 exports.getUserInfo = getUserInfo;
 exports.createConversation = createConversation;
 exports.getChat = getChat;
 exports.createPostInChat = createPostInChat;
 exports.createCardInChat = createCardInChat;
-exports.createWebHook = createWebHook;
+exports.createPostWebHook = createPostWebHook;
+exports.createUserPresenceWebhook = createUserPresenceWebhook;
 exports.deleteWebHook = deleteWebHook;
 exports.getUserSelfPresence = getUserSelfPresence;
 exports.sendSMS = sendSMS;
+exports.renewWebhook = renewWebhook;
+exports.searchUsersByName = searchUsersByName;

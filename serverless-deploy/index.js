@@ -4,6 +4,7 @@ const { botHandler } = require('./handlers/botHandler');
 const { RcUserModel } = require('./models/rcUserModel');
 const { ReplySettingModel } = require('./models/replySettingModel');
 const { ReplyRecordModel } = require('./models/replyRecordModel');
+const { WatchUserModel } = require('./models/watchUserModel');
 
 const interactiveMessageHandler = require('./handlers/interactiveMessageHandler');
 const authorizationHandler = require('./handlers/authorizationHandler');
@@ -19,6 +20,7 @@ exports.appExtend = (app) => {
         models: { // optional
             RcUserModel,
             ReplySettingModel,
+            WatchUserModel,
             ReplyRecordModel
         }
     }

@@ -4,8 +4,10 @@ const moment = require('moment');
 const authorizationHandler = require('./authorizationHandler');
 const { RcUserModel } = require('../models/rcUserModel');
 const { ReplySettingModel } = require('../models/replySettingModel');
+const { WatchUserModel } = require('../models/watchUserModel');
 const cardBuilder = require('../lib/cardBuilder');
 const dialogBuilder = require('../lib/dialogBuilder');
+const rcAPI = require('../lib/rcAPI');
 
 const onCardSubmission = async (req, res) => {
     try {
@@ -22,7 +24,7 @@ const onCardSubmission = async (req, res) => {
         }
         const submitData = req.body.data;
         const cardId = req.body.card.id;
-        console.log(`=====incomingCard=====\n${JSON.stringify(req.body, null, 2)}`);
+        console.log(`=====incomingCardSubmission=====\n${JSON.stringify(req.body, null, 2)}`);
         const bot = await Bot.findByPk(submitData.botId);
         const rcUser = await RcUserModel.findByPk(submitData.rcUserId);
         const replySetting = await ReplySettingModel.findByPk(rcUser.replySettingId);
@@ -37,6 +39,41 @@ const onCardSubmission = async (req, res) => {
                     const dmGroupId = rcUser.rcDMGroupId;
                     await rcUser.destroy();
                     await bot.sendMessage(dmGroupId, { text: 'successfully logged out.' });
+                    break;
+                case 'searchUser':
+                    const searchResult = await rcAPI.searchUsersByName(submitData.username, rcUser.accessToken);
+                    if (searchResult.records.length == 0) {
+                        await bot.sendMessage(rcUser.rcDMGroupId, { text: `No user can be found with name **${submitData.username}**` });
+                        break;
+                    }
+                    const userInfo = searchResult.records.map(r => {
+                        return {
+                            username: `${r.firstName} ${r.lastName}`,
+                            botId: bot.id,
+                            rcUserId: rcUser.id,
+                            watcheeId: r.id,
+                            watcheeName: `${r.firstName} ${r.lastName}`,
+                            actionType: 'watchUser'
+                        };
+                    });
+                    const watchUserSearchResultCard = cardBuilder.watchUserSearchResultCard(bot.id, rcUser.id, userInfo);
+                    await bot.sendAdaptiveCard(rcUser.rcDMGroupId, watchUserSearchResultCard);
+                    break;
+                case 'watchUser':
+                    const watchId = `${rcUser.id}-${submitData.watcheeId}`
+                    const existingWatch = await WatchUserModel.findByPk(watchId);
+                    if (existingWatch) {
+                        await bot.sendMessage(rcUser.rcDMGroupId, { text: 'Already in watch.' });
+                    }
+                    else {
+                        const webhookResponse = await rcAPI.createUserPresenceWebhook(rcUser.id, rcUser.accessToken, submitData.watcheeId);
+                        await WatchUserModel.create({
+                            id: watchId,
+                            webhookId: webhookResponse.id,
+                            watcheeName: submitData.watcheeName
+                        });
+                        await bot.sendMessage(rcUser.rcDMGroupId, { text: `A new watch created. I will notify you when ${submitData.watcheeName} is available.` });
+                    }
                     break;
                 case 'generalSettingsDialog':
                     const generalSettingsCard = cardBuilder.generalSettingsCard(bot.id, rcUser.id, replySetting.enableGroupMentionResponse);

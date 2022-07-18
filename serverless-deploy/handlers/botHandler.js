@@ -50,6 +50,10 @@ const botHandler = async event => {
                         const settingsCard = cardBuilder.settingsCard(messageBot.id, existingRcUser.id, replySetting);
                         await messageBot.sendAdaptiveCard(group.id, settingsCard);
                         break;
+                    case 'watch':
+                        const watchUserSearchCard = await cardBuilder.watchUserSearchCard(messageBot.id, existingRcUser.id);
+                        await messageBot.sendAdaptiveCard(group.id, watchUserSearchCard);
+                        break;
                     default:
                         await messageBot.sendMessage(group.id, { text: HELPER_TEXT });
                         break;

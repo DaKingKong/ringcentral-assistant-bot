@@ -8,6 +8,8 @@ const settingsCardTemplateJson = require('../adaptiveCardPayloads/settingsCard.j
 const generalSettingsCardTemplateJson = require('../adaptiveCardPayloads/generalSettingsCard.json');
 const toggleSettingCardTemplateJson = require('../adaptiveCardPayloads/toggleSettingCard.json');
 const dateRangeSettingCardTemplateJson = require('../adaptiveCardPayloads/dateRangeSettingCard.json');
+const watchUserSearchCardTemplateJson = require('../adaptiveCardPayloads/watchUserSearchCard.json');
+const watchUserSearchResultCardTemplateJson = require('../adaptiveCardPayloads/watchUserSearchResultCard.json');
 
 const ON_EMOJI = "🔔";
 const OFF_EMOJI = "🔕";
@@ -130,6 +132,31 @@ function dateRangeSettingCard(botId, rcUserId, settingType, startDateTime, endDa
     return card;
 }
 
+function watchUserSearchCard(botId, rcUserId) {
+    const template = new Template(watchUserSearchCardTemplateJson);
+    const cardData = {
+        botId,
+        rcUserId
+    }
+    const card = template.expand({
+        $root: cardData
+    });
+    return card;
+}
+
+function watchUserSearchResultCard(botId, rcUserId, userInfo) {
+    const template = new Template(watchUserSearchResultCardTemplateJson);
+    const cardData = {
+        botId,
+        rcUserId,
+        userInfo
+    }
+    const card = template.expand({
+        $root: cardData
+    });
+    return card;
+}
+
 exports.authCard = authCard;
 exports.unAuthCard = unAuthCard;
 exports.responseCard = responseCard;
@@ -137,3 +164,5 @@ exports.settingsCard = settingsCard;
 exports.generalSettingsCard = generalSettingsCard;
 exports.toggleSettingCard = toggleSettingCard;
 exports.dateRangeSettingCard = dateRangeSettingCard;
+exports.watchUserSearchCard = watchUserSearchCard;
+exports.watchUserSearchResultCard = watchUserSearchResultCard;

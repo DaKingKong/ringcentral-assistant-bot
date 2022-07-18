@@ -16,6 +16,7 @@ echo('building...');
 cp('-r', `${projectPath}/src/lambda.js`, `${deployPath}/lambda.js`);
 cp('-r', `${projectPath}/src/index.js`, `${deployPath}/index.js`);
 cp('-r', `${projectPath}/src/server.js`, `${deployPath}/server.js`);
+cp('-r', `${projectPath}/src/refreshWebhook.js`, `${deployPath}/refreshWebhook.js`);
 cp('-r', `${projectPath}/src/adaptiveCardPayloads`, `${deployPath}/adaptiveCardPayloads`);
 cp('-r', `${projectPath}/src/handlers`, `${deployPath}/handlers`);
 cp('-r', `${projectPath}/src/models`, `${deployPath}/models`);

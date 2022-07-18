@@ -74,7 +74,7 @@ async function oauthCallback(req, res) {
             replySetting = await ReplySettingModel.findByPk(rcUser.replySettingId);
         }
 
-        const webhookResponse = await rcAPI.createWebHook(rcUser.id, rcUser.accessToken);
+        const webhookResponse = await rcAPI.createPostWebHook(rcUser.id, rcUser.accessToken);
         rcUser.webhookId = webhookResponse.id;
         await rcUser.save();
 

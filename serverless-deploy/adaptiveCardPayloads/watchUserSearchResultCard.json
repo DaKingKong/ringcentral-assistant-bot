@@ -1,0 +1,99 @@
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "Watch Presence",
+            "wrap": true,
+            "size": "Large",
+            "weight": "Bolder"
+        },
+        {
+            "type": "TextBlock",
+            "text": "Watch user presence and get notified when its presence becomes `Available`",
+            "wrap": true
+        },
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "ColumnSet",
+                    "$data": "${userInfo}",
+                    "columns": [
+                        {
+                            "type": "Column",
+                            "items": [
+                                {
+                                    "type": "TextBlock",
+                                    "text": "${username}",
+                                    "wrap": true
+                                }
+                            ],
+                            "verticalContentAlignment": "Center",
+                            "width": "stretch"
+                        },
+                        {
+                            "type": "Column",
+                            "items": [
+                                {
+                                    "type": "ActionSet",
+                                    "actions": [
+                                        {
+                                            "type": "Action.Submit",
+                                            "title": "Watch",
+                                            "data": {
+                                                "botId": "${botId}",
+                                                "rcUserId": "${rcUserId}",
+                                                "watcheeId": "${watcheeId}",
+                                                "watcheeName": "${watcheeName}",
+                                                "actionType": "watchUser"
+                                            }
+                                        }
+                                    ]
+                                }
+                            ],
+                            "width": "auto"
+                        }
+                    ],
+                    "separator": true
+                }
+            ]
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "items": [
+                        {
+                            "type": "Image",
+                            "url": "https://raw.githubusercontent.com/ringcentral/ringcentral-google-drive-notification-add-in/master/staticResources/feedback.png",
+                            "width": "20px",
+                            "horizontalAlignment": "Left"
+                        }
+                    ],
+                    "width": "auto"
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "[Feedback](https://forms.gle/PqJS5rmoJR9cCLVj7)",
+                            "wrap": true,
+                            "size": "Small",
+                            "horizontalAlignment": "Left"
+                        }
+                    ],
+                    "spacing": "Small",
+                    "verticalContentAlignment": "Center"
+                }
+            ],
+            "horizontalAlignment": "Left",
+            "spacing": "Medium"
+        }
+    ]
+}

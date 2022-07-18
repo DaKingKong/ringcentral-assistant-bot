@@ -26,6 +26,11 @@ package:
     - '.js'
     - 'node_modules/**'
 functions:
+  refreshWebhook:
+    handler: refreshWebhook.app
+    timeout: 900
+    events:
+      - schedule: rate(30 minutes)
   app:
     handler: lambda.app
     # role: arn:aws:iam::111111:role/xxxx-prod-us-east-1-lambdaRole
@@ -66,6 +71,19 @@ resources:
       Type: AWS::DynamoDB::Table
       Properties:
         TableName: ringcentral-ring-bot-reply-record
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    watchTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ringcentral-ring-bot-watch
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
