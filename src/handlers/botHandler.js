@@ -7,7 +7,8 @@ const HELPER_TEXT =
     "Hello human, this is **Ring Bot**. I can reply messages for you when you are not available(Busy, Offline or OOO). Tell me what to do with following commands:\n\n" +
     "`login`: **login** with your RingCentral account\n" +
     "`logout`: **logout** with your RingCentral account and clear all your data\n" +
-    "`config`: **configure** your auto-response settings"
+    "`config`: **configure** your auto-response settings\n" +
+    "`watch`: **watch** another user and get **notified** when she/he becomes **Available**."
 
 const botHandler = async event => {
     try {

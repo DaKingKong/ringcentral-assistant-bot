@@ -63,7 +63,7 @@ const onCardSubmission = async (req, res) => {
                     const watchId = `${rcUser.id}-${submitData.watcheeId}`
                     const existingWatch = await WatchUserModel.findByPk(watchId);
                     if (existingWatch) {
-                        await bot.sendMessage(rcUser.rcDMGroupId, { text: 'Already in watch.' });
+                        await bot.sendMessage(rcUser.rcDMGroupId, { text: `There is already a watch for ${submitData.watcheeName}`});
                     }
                     else {
                         const webhookResponse = await rcAPI.createUserPresenceWebhook(rcUser.id, rcUser.accessToken, submitData.watcheeId);

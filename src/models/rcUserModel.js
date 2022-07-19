@@ -26,8 +26,5 @@ exports.RcUserModel = sequelize.define('rc-user', {
   },
   tokenExpiredAt: {
     type: Sequelize.DATE,
-  },
-  watchingUserIds:{
-    type: Sequelize.JSON 
   }
 });
