@@ -85,7 +85,6 @@ const createCardInChat = async (groupId, accessToken, card) => {
 const createPostWebHook = async (rcUserId, accessToken) => {
     const postBody = {
         eventFilters: [
-            '/restapi/v1.0/glip/posts',
             '/restapi/v1.0/account/~/extension/~/message-store/instant?type=SMS'
         ],
         expiresIn: 473040000,
