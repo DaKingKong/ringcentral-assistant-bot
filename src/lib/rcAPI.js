@@ -40,6 +40,19 @@ const getChat = async (groupId, accessToken) => {
     return response.data;
 }
 
+const markChatUnread = async (groupId, accessToken) => {
+    const response = await axios.post(`${process.env.RINGCENTRAL_SERVER}/restapi/v1.0/glip/chats/${groupId}/unread`,
+        null,
+        {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
+
+    return response.data;
+}
+
 const createPostInChat = async (groupId, accessToken, postText) => {
     const postBody = {
         text: postText
@@ -178,7 +191,7 @@ const renewWebhook = async (webhookId, accessToken) => {
 
 const searchUsersByName = async (name, accessToken) => {
     const postBody = {
-        searchString: name, 
+        searchString: name,
         searchFields: [
             "firstName",
             "lastName"
@@ -200,6 +213,7 @@ const searchUsersByName = async (name, accessToken) => {
 exports.getUserInfo = getUserInfo;
 exports.createConversation = createConversation;
 exports.getChat = getChat;
+exports.markChatUnread = markChatUnread;
 exports.createPostInChat = createPostInChat;
 exports.createCardInChat = createCardInChat;
 exports.createPostWebHook = createPostWebHook;

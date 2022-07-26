@@ -1,4 +1,4 @@
-require('dotenv').config();
+// require('dotenv').config();
 const { RcUserModel } = require('./models/rcUserModel');
 const rcAPI = require('./lib/rcAPI');
 const { checkAndRefreshAccessToken } = require('./lib/oauth');
@@ -9,7 +9,9 @@ async function refreshWebhook() {
         try {
             console.log(`refreshing for ${user.id}`);
             await checkAndRefreshAccessToken(user, true);
-            await rcAPI.renewWebhook(user.webhookId, user.accessToken);
+            console.log(`renewing for webhook: ${user.webhookId}`);
+            const webhookResponse = await rcAPI.renewWebhook(user.webhookId, user.accessToken);
+            console.log(`new webhook: ${JSON.stringify(webhookResponse, null, 2)}`);
         }
         catch (e) {
             console.log(e);
@@ -17,6 +19,6 @@ async function refreshWebhook() {
     }
 }
 
-refreshWebhook();
+// refreshWebhook();
 
 exports.app = refreshWebhook;
