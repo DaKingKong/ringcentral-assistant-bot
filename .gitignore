@@ -103,6 +103,10 @@ dist
 # TernJS port file
 .tern-port
 
-serverless.yml
-env.yml
+serverless-deploy/env.yml
+serverless-deploy/serverless.yml
+serverless-deploy/*.js
+serverless-deploy/*.json
+serverless-deploy/**/
+public/*
 db.sqlite
